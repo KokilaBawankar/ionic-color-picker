@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "ngc": "ngc",
-    "build": "rm -rf dist && npm run ngc",
+    "build": "npm run ngc",
     "publishPackage": "npm run build && npm publish"
   },
   "repository": {
