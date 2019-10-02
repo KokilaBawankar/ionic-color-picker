@@ -27,9 +27,9 @@ import {IonicColorPickerModule} from 'ionic-color-picker';
             ionicColorPicker
             [colors]="['#C0392B', '#E74C3C', '#9B59B6', '#8E44AD', '#2980B9', '#3498DB', '#1ABC9C', '#16A085', '#27AE60', '#2ECC71']"
             [position]="'bottom'"
-            (onColorPickerOpen)="onClick($event)"
-            (onColorPickerClose)="onClick($event)"
-            (onColorChange)="onClick($event)">
+            (onColorPickerOpen)="eventOccur($event)"
+            (onColorPickerClose)="eventOccur($event)"
+            (onColorChange)="eventOccur($event)">
         Change Color
     </ion-button>
 ```
@@ -43,7 +43,10 @@ colors | String array of colors in hexadecimal format. | string[] e.g. [`#C0392B
 position| Position of the color picker.| 'bottom', 'top', 'center' | 'bottom'
 
 # Output Events
-- **onColorPickerOpen** - Occurs when color picker opens.
-- **onColorPickerClose** - Occurs when color picker closes.
-- **onColorChange** - Occurs every time color is selected from picker and also when moves the slider to darken or lighten the color.
+
+Event | Description | Event
+---|---|---
+onColorPickerOpen | Occurs when color picker opens. | ```{isColorPickerOpen:boolean;}```
+onColorPickerClose | Occurs when color picker closes. | ```{isColorPickerClose: boolean;}```
+onColorChange | Occurs every time color is selected from picker and also when moves the slider to darken or lighten the color. | ```{color: string;}```
 
