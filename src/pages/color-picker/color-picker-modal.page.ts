@@ -10,25 +10,108 @@ import {
 } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 
-import {ColorChangeModel, ColorPickerCloseModel, ColorPickerOpenModel} from '../../directives/color-picker/color-picker.directive';
+import {
+    ColorChangeModel,
+    ColorPickerCloseModel,
+    ColorPickerOpenModel
+} from '../../directives/color-picker/color-picker.directive';
+
+const TEMPLATE = `
+<ion-content scrollY="false">
+    <div class="cp-color-grid">
+        <div class="cp-color-bar-wrapper">
+            <div class="cp-color-bar-color-none" (click)="setSelectedColor('none')">
+                <div class="cp-color-bar-color-none-line"></div>
+            </div>
+        </div>
+
+        <div class="cp-color-bar-wrapper" *ngFor="let color of colors">
+            <div class="cp-color-bar"
+                 [style.background-color]="color"
+                 (click)="setSelectedColor(color)">
+            </div>
+        </div>
+    </div>
+
+    <ion-range #colorSlider
+               class="cp-color-slider"
+               [value]="colorSliderConfig.value"
+               [min]="colorSliderConfig.min"
+               [max]="colorSliderConfig.max"
+               (ionChange)="onColorSliderChange(selectedColor, $event)">
+    </ion-range>
+</ion-content>
+<ion-footer>
+    <ion-button (click)="dismiss()">Close</ion-button>
+</ion-footer>
+`;
+
+const STYLES = [
+    `
+            .cp-color-grid {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                height: 190px;
+                overflow-y: hidden;
+                overflow-x: scroll;
+                padding: 5px;
+            }
+
+            .cp-color-bar-wrapper {
+                margin-right: 10px;
+                padding: 5px;
+            }
+
+            .cp-color-bar-color-none,
+            .cp-color-bar {
+                background-color: #f2f0f0;
+                border-radius: 50%;
+                box-shadow: 2px 3px 5px grey;
+                height: 50px;
+                width: 50px;
+            }
+
+            .cp-color-bar-color-none-line {
+                border-bottom: 2px solid #FF9800;
+                height: 48px;
+                position: relative;
+                transform: translateY(-16px) translateX(16px) rotate(40deg);
+                width: 48px;
+            }
+
+            .cp-color-bar-color-none {
+                background-color: #e5e5e5;
+            }
+
+
+            .cp-color-slider {
+                --bar-background-active: none;
+                --bar-border-radius: 5px;
+                --bar-height: 10px;
+            }
+
+            ion-range:disabled {
+                --bar-background-active: none;
+            }
+    `
+];
 
 @Component({
     selector: 'app-pick-color',
-    templateUrl: './color-picker-modal.page.html',
-    styleUrls: ['./color-picker-modal.page.scss'],
+    template: TEMPLATE,
+    styles: STYLES
 })
 export class ColorPickerModalPage implements OnInit, OnDestroy {
 
-    // tslint:disable-next-line:no-output-on-prefix
-    @Output() onColorPickerOpen: EventEmitter<ColorPickerOpenModel> = new EventEmitter();
-    // tslint:disable-next-line:no-output-on-prefix
-    @Output() onColorPickerClose: EventEmitter<ColorPickerCloseModel> = new EventEmitter();
-    // tslint:disable-next-line:no-output-on-prefix
-    @Output() onColorChange: EventEmitter<ColorChangeModel> = new EventEmitter();
+    @Output() colorPickerOpen: EventEmitter<ColorPickerOpenModel> = new EventEmitter();
+    @Output() colorPickerClose: EventEmitter<ColorPickerCloseModel> = new EventEmitter();
+    @Output() colorChange: EventEmitter<ColorChangeModel> = new EventEmitter();
+
+    @ViewChild('colorSlider', {static: true}) colorSlider: ElementRef;
 
     colors: string[] = [];
     selectedColor: string;
-    @ViewChild('pickColorColorSlider', {static: true}) colorSlider: ElementRef;
     colorSliderConfig = {
         min: -100,
         max: 100,
@@ -43,7 +126,7 @@ export class ColorPickerModalPage implements OnInit, OnDestroy {
     ngOnInit() {
         // @ts-ignore
         this.renderer2.setAttribute(this.colorSlider.el, 'disabled', 'true');
-        this.onColorPickerOpen.emit({isColorPickerOpen: true});
+        this.colorPickerOpen.emit({isColorPickerOpen: true});
     }
 
     dismiss() {
@@ -51,7 +134,7 @@ export class ColorPickerModalPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.onColorPickerClose.emit({isColorPickerClose: true});
+        this.colorPickerClose.emit({isColorPickerClose: true});
     }
 
     setSelectedColor(color: string) {
@@ -59,7 +142,7 @@ export class ColorPickerModalPage implements OnInit, OnDestroy {
         this.setColorSliderBackgroundGradient(color);
         // @ts-ignore
         this.renderer2.setAttribute(this.colorSlider.el, 'value', this.colorSliderConfig.value.toString());
-        this.onColorChange.emit({color});
+        this.colorChange.emit({color});
         if (this.selectedColor === 'none') {
             // @ts-ignore
             this.renderer2.setAttribute(this.colorSlider.el, 'disabled', 'true');
@@ -111,7 +194,6 @@ export class ColorPickerModalPage implements OnInit, OnDestroy {
         const BB = ((B.toString(16).length === 1) ? '0' + B.toString(16) : B.toString(16));
 
         return (usePound ? '#' : '') + RR + GG + BB;
-
     }
 
     setColorSliderBackgroundGradient(color: string) {
@@ -126,17 +208,11 @@ export class ColorPickerModalPage implements OnInit, OnDestroy {
         } else {
             // @ts-ignore
             this.renderer2.setStyle(this.colorSlider.el.shadowRoot.children[1].children[0],
-                              'background', this.colorSliderConfig.defaultBarBackground);
+                'background', this.colorSliderConfig.defaultBarBackground);
         }
     }
 
     onColorSliderChange(selectedColor: string, $event: CustomEvent<any>) {
-        this.onColorChange.emit({color: this.adjustColor(selectedColor, $event)});
+        this.colorChange.emit({color: this.adjustColor(selectedColor, $event)});
     }
-
-    /*adjustColor(color: string, customEvent: CustomEvent) {
-      console.log(customEvent.detail.value);
-      console.log( '#' + color.replace(/^#/, '').replace(
-          /../g, clr => ('0' + Math.min(255, Math.max(0, parseInt(clr, 16) + customEvent.detail.value)).toString(16)).substr(-2)));
-  }*/
 }

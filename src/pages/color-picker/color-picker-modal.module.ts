@@ -9,6 +9,7 @@ import { ColorPickerModalPage } from './color-picker-modal.page';
     CommonModule,
     IonicModule
   ],
+  entryComponents: [ColorPickerModalPage],
   declarations: [ColorPickerModalPage]
 })
 export class ColorPickerModalModule {}

@@ -1,5 +1,6 @@
 import {Directive, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {ModalController} from '@ionic/angular';
+
 import {ColorPickerModalPage} from '../../pages/color-picker/color-picker-modal.page';
 
 export interface ColorPickerOpenModel {
@@ -19,12 +20,9 @@ export interface ColorChangeModel {
 })
 export class ColorPickerDirective {
 
-    // tslint:disable-next-line:no-output-on-prefix
-    @Output() onColorPickerOpen: EventEmitter<ColorPickerOpenModel> = new EventEmitter();
-    // tslint:disable-next-line:no-output-on-prefix
-    @Output() onColorPickerClose: EventEmitter<ColorPickerCloseModel> = new EventEmitter();
-    // tslint:disable-next-line:no-output-on-prefix
-    @Output() onColorChange: EventEmitter<ColorChangeModel> = new EventEmitter();
+    @Output() colorPickerOpen: EventEmitter<ColorPickerOpenModel> = new EventEmitter();
+    @Output() colorPickerClose: EventEmitter<ColorPickerCloseModel> = new EventEmitter();
+    @Output() colorChange: EventEmitter<ColorChangeModel> = new EventEmitter();
 
     @Input() colors: string[] = [
         '#C0392B', '#E74C3C', '#9B59B6', '#8E44AD', '#2980B9', '#3498DB', '#1ABC9C', '#16A085', '#27AE60', '#2ECC71',
@@ -42,9 +40,9 @@ export class ColorPickerDirective {
             backdropDismiss: false,
             showBackdrop: true,
             componentProps: {
-                onColorPickerOpen: this.onColorPickerOpen,
-                onColorPickerClose: this.onColorPickerClose,
-                onColorChange: this.onColorChange,
+                colorPickerOpen: this.colorPickerOpen,
+                colorPickerClose: this.colorPickerClose,
+                colorChange: this.colorChange,
                 colors: this.colors
             },
             cssClass: ['color-picker-modal', 'color-picker-modal-' + this.position.trim()]
