@@ -37,7 +37,7 @@ export class ColorPickerDirective {
     async openColorPicker(event) {
         const modal = await this.modalController.create({
             component: ColorPickerModalPage,
-            backdropDismiss: false,
+            backdropDismiss: true,
             showBackdrop: true,
             componentProps: {
                 colorPickerOpen: this.colorPickerOpen,
