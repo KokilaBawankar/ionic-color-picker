@@ -41,61 +41,58 @@ const TEMPLATE = `
                (ionChange)="onColorSliderChange(selectedColor, $event)">
     </ion-range>
 </ion-content>
-<ion-footer>
-    <ion-button (click)="dismiss()">Close</ion-button>
-</ion-footer>
 `;
 
-const STYLES = [
-    `
-            .cp-color-grid {
-                display: flex;
-                flex-direction: column;
-                flex-wrap: wrap;
-                height: 190px;
-                overflow-y: hidden;
-                overflow-x: scroll;
-                padding: 5px;
-            }
+const STYLES = [`
+.cp-color-grid {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 190px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 5px;
+}
 
-            .cp-color-bar-wrapper {
-                margin-right: 10px;
-                padding: 5px;
-            }
+.cp-color-bar-wrapper {
+  margin-right: 10px;
+  padding: 5px;
+}
 
-            .cp-color-bar-color-none,
-            .cp-color-bar {
-                background-color: #f2f0f0;
-                border-radius: 50%;
-                box-shadow: 2px 3px 5px grey;
-                height: 50px;
-                width: 50px;
-            }
+.cp-color-bar-color-none,
+.cp-color-bar {
+  background-color: #f2f0f0;
+  border-radius: 50%;
+  box-shadow: 2px 3px 5px grey;
+  height: 40px;
+  width: 40px;
+}
 
-            .cp-color-bar-color-none-line {
-                border-bottom: 2px solid #FF9800;
-                height: 48px;
-                position: relative;
-                transform: translateY(-16px) translateX(16px) rotate(40deg);
-                width: 48px;
-            }
+.cp-color-bar-color-none-line {
+  border-bottom: 2px solid #FF9800;
+  height: 41px;
+  position: relative;
+  -webkit-transform: translateY(-16px) translateX(16px) rotate(40deg);
+  transform: translateY(-15px) translateX(12px) rotate(40deg);
+  width: 41px;
+}
 
-            .cp-color-bar-color-none {
-                background-color: #e5e5e5;
-            }
+.cp-color-bar-color-none {
+  background-color: #e5e5e5;
+}
 
 
-            .cp-color-slider {
-                --bar-background-active: none;
-                --bar-border-radius: 5px;
-                --bar-height: 10px;
-            }
+.cp-color-slider {
+  --bar-background-active: none;
+  --bar-border-radius: 5px;
+  --bar-height: 10px;
+  margin-top: 10px;
+}
 
-            ion-range:disabled {
-                --bar-background-active: none;
-            }
-    `
-];
+ion-range:disabled {
+  --bar-background-active: none;
+}
+  `];
 
 @Component({
     selector: 'app-pick-color',
@@ -127,10 +124,6 @@ export class ColorPickerModalPage implements OnInit, OnDestroy {
         // @ts-ignore
         this.renderer2.setAttribute(this.colorSlider.el, 'disabled', 'true');
         this.colorPickerOpen.emit({isColorPickerOpen: true});
-    }
-
-    dismiss() {
-        this.modalController.dismiss();
     }
 
     ngOnDestroy(): void {

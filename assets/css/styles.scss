@@ -1,0 +1,22 @@
+.cp-color-picker-modal {
+  box-sizing: border-box;
+  padding: 10px;
+  ion-backdrop {
+    visibility: visible;
+    z-index: 0;
+  }
+  .modal-wrapper {
+    border-radius: 5px !important;
+    height: 270px;
+    .scroll-content {
+      background-color: white;
+    }
+    ion-footer{
+      display: flex;
+      justify-content: flex-end;
+      ion-button{
+        margin: 10px;
+      }
+    }
+  }
+}

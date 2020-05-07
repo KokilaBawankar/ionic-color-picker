@@ -1,7 +1,7 @@
 {
   "name": "ionic-color-picker",
-  "version": "1.0.0",
-  "description": "A cool color picker in Ionic 4 and Angular 8. It can also let you darken or brighten the selected color.",
+  "version": "1.0.3",
+  "description": "A cool color picker in Ionic 4 and Angular 8. It can also let you darken or brighten the selected color using the color slider and you can also pass the colors among which you want yours to choose.",
   "main": "./dist/src/index.js",
   "typings": "./dist/src/index.d.ts",
   "files": [
