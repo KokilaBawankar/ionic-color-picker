@@ -40,7 +40,7 @@ import {IonicColorPickerModule} from 'ionic-color-picker';
 # Input Options
 
 Properties | Description | Possible Values
----|---|---|---
+---|---|---
 colors (Optional)| String array of colors in hexadecimal format. | string[] e.g. [`'#C0392B'` `'#E74C3C'`]
 
 # Output Events
