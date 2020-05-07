@@ -29,7 +29,6 @@ import {IonicColorPickerModule} from 'ionic-color-picker';
 ```
 <ion-button
             ionicColorPicker
-            [colors]="['#C0392B', '#E74C3C', '#9B59B6', '#8E44AD', '#2980B9', '#3498DB', '#1ABC9C', '#16A085', '#27AE60', '#2ECC71']"
             (colorPickerOpen)="eventOccur($event)"
             (colorPickerClose)="eventOccur($event)"
             (colorChange)="eventOccur($event)">
